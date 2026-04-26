@@ -68,3 +68,40 @@ class ArchivoSIATA:
 
         print("Se creó la columna:", nueva_columna)
         print(self.datos[[columna1, columna2, nueva_columna]].head())
+    
+    def graficar_remuestreo(self, columna):
+        columna_fecha = self.datos.columns[0]
+        self.datos[columna_fecha] = pd.to_datetime(self.datos[columna_fecha])
+        self.datos = self.datos.set_index(columna_fecha)
+        self.datos = self.datos.sort_index()
+        print("La columna de fecha quedó como índice:")
+        print(self.datos.index[:5])
+    
+        diario = self.datos[columna].resample("D").mean()
+        mensual = self.datos[columna].resample("M").mean()
+        trimestral = self.datos[columna].resample("Q").mean()
+
+        fig, axes = plt.subplots(3, 1, figsize=(10, 9))
+
+        diario.plot(ax=axes[0])
+        axes[0].set_title("Remuestreo diario de " + columna)
+        axes[0].set_xlabel("Fecha")
+        axes[0].set_ylabel(columna)
+
+        mensual.plot(ax=axes[1])
+        axes[1].set_title("Remuestreo mensual de " + columna)
+        axes[1].set_xlabel("Fecha")
+        axes[1].set_ylabel(columna)
+
+        trimestral.plot(ax=axes[2])
+        axes[2].set_title("Remuestreo trimestral de " + columna)
+        axes[2].set_xlabel("Fecha")
+        axes[2].set_ylabel(columna)
+
+        plt.tight_layout()
+        nombre_imagen = "remuestreo_siata_" + columna + ".png"
+        plt.savefig(nombre_imagen, dpi=150)
+        plt.show()
+        print("Grafico guardado como:", nombre_imagen)
+
+
