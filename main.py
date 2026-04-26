@@ -12,17 +12,17 @@ Almacen = AlmacenObjetos
 
 def submenu_siata(obj):
     while True:
-        print("\n##########################################")
-        print("#       MENÚ – ARCHIVO SIATA (CSV)       #")
-        print("##########################################")
-        print("#  1. Ver información básica             #")
-        print("#  2. Graficar columna (plot/box/hist)   #")
-        print("#  3. Operación con apply                #")
-        print("#  4. Operación con map                  #")
-        print("#  5. Sumar o restar dos columnas        #")
-        print("#  6. Graficar remuestreo                #")
-        print("#  0. Volver al menú principal           #")
-        print("##########################################")
+        print("\n*==========================================#")
+        print("*       MENÚ – ARCHIVO SIATA (CSV)        #")
+        print("*==========================================#")
+        print("#  1. Ver información básica              *")
+        print("=  2. Graficar columna (plot/box/hist)    *")
+        print("#  3. Operación con apply                 *")
+        print("=  4. Operación con map                   *")
+        print("#  5. Sumar o restar dos columnas         *")
+        print("=  6. Graficar remuestreo                 *")
+        print("#  0. Volver al menú principal            *")
+        print("#==========================================#")
 
 
         Opcion = pedir_entero("Elija una opcion: ")
