@@ -70,10 +70,11 @@ class ArchivoSIATA:
         print(self.datos[[columna1, columna2, nueva_columna]].head())
     
     def graficar_remuestreo(self, columna):
-        columna_fecha = self.datos.columns[0]
-        self.datos[columna_fecha] = pd.to_datetime(self.datos[columna_fecha])
-        self.datos = self.datos.set_index(columna_fecha)
-        self.datos = self.datos.sort_index()
+        if not isinstance(self.datos.index, pd.DatetimeIndex):
+            columna_fecha = self.datos.columns[0]
+            self.datos[columna_fecha] = pd.to_datetime(self.datos[columna_fecha])
+            self.datos = self.datos.set_index(columna_fecha)
+            self.datos = self.datos.sort_index()
         print("La columna de fecha quedó como índice:")
         print(self.datos.index[:5])
     
