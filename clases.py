@@ -106,3 +106,156 @@ class ArchivoSIATA:
         print("Grafico guardado como:", nombre_imagen)
 
 
+class ArchivoEEG:
+    def __init__(self, ruta):
+        self.ruta = ruta
+        self.frecuencia_muestreo = 1000  # Hz, es decir, 1000 muestras por segundo
+        self.archivo = loadmat(ruta)
+        self.matriz = None
+        self.llave_matriz = None
+
+    def mostrar_llaves(self):
+        print("\n========== LLAVES DEL ARCHIVO MAT ==========")
+        llaves = whosmat(self.ruta)
+        for item in llaves:
+            print(item[0])
+    
+    def seleccionar_matriz(self, llave):
+        if llave in self.archivo:
+            self.matriz = np.array(self.archivo[llave])
+            self.llave_matriz = llave
+            print("Matriz seleccionada:", llave)
+            print("Dimensiones:", self.matriz.shape)
+        else:
+            print("Esa llave no esta en el archivo.")
+
+    def obtener_matriz_2d(self):
+        if self.matriz is None:
+            print("Primero seleccione una matriz.")
+            return None
+
+        elif self.matriz.ndim == 2:
+            return self.matriz
+
+        elif self.matriz.ndim == 3:
+            print("La matriz es 3D. Para esta parte se usa matriz[:, :, 0].")
+            return self.matriz[:, :, 0]
+
+        else:
+            print("La matriz no es 2D ni 3D.")
+            return None
+    
+    def sumar_tres_canales(self, canal1, canal2, canal3, punto_minimo, punto_maximo):
+        matriz_2d = self.obtener_matriz_2d()
+        if matriz_2d is None:
+            return
+
+        canales = [canal1, canal2, canal3]
+        numero_canales = matriz_2d.shape[0]
+        numero_puntos = matriz_2d.shape[1]
+
+        for canal in canales:
+            if canal < 0 or canal >= numero_canales:
+                print("Canal fuera del rango. Los canales van de 0 a", numero_canales - 1)
+                return
+
+        if punto_minimo < 0 or punto_maximo > numero_puntos or punto_minimo >= punto_maximo:
+            print("Puntos no validos. Los puntos van de 0 a", numero_puntos)
+            return
+
+        tiempo = np.arange(punto_minimo, punto_maximo) / self.frecuencia_muestreo
+
+        senal1 = matriz_2d[canal1, punto_minimo:punto_maximo]
+        senal2 = matriz_2d[canal2, punto_minimo:punto_maximo]
+        senal3 = matriz_2d[canal3, punto_minimo:punto_maximo]
+        suma = senal1 + senal2 + senal3
+
+        fig, axes = plt.subplots(2, 1, figsize=(10, 7))
+
+        axes[0].plot(tiempo, senal1, label="Canal " + str(canal1))
+        axes[0].plot(tiempo, senal2, label="Canal " + str(canal2))
+        axes[0].plot(tiempo, senal3, label="Canal " + str(canal3))
+        axes[0].set_title("Tres canales EEG elegidos")
+        axes[0].set_xlabel("Tiempo (s)")
+        axes[0].set_ylabel("Amplitud (microvoltios)")
+        axes[0].legend()
+
+        axes[1].plot(tiempo, suma, label="Suma")
+        axes[1].set_title("Suma de los tres canales")
+        axes[1].set_xlabel("Tiempo (s)")
+        axes[1].set_ylabel("Amplitud (microvoltios)")
+        axes[1].legend()
+
+        plt.tight_layout()
+        nombre_imagen = "suma_canales_eeg.png"
+        plt.savefig(nombre_imagen, dpi=150)
+        plt.show()
+        print("Grafico guardado como:", nombre_imagen)
+
+    def promedio_y_desviacion_3d(self, eje):
+        if self.matriz is None:
+            print("Primero seleccione una matriz.")
+            return
+
+        if self.matriz.ndim != 3:
+            print("Esta opción necesita la matriz original en 3D.")
+            return
+
+        if eje < 0 or eje > 2:
+            print("El eje debe ser 0, 1 o 2.")
+            return
+
+        promedio = np.mean(self.matriz, axis=eje)
+        desviacion = np.std(self.matriz, axis=eje)
+
+        promedio_1d = promedio.flatten()
+        desviacion_1d = desviacion.flatten()
+
+        limite = min(200, len(promedio_1d))
+        x = np.arange(limite)
+
+        fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+
+        axes[0].stem(x, promedio_1d[:limite])
+        axes[0].set_title("Promedio en el eje " + str(eje))
+        axes[0].set_xlabel("Punto")
+        axes[0].set_ylabel("Promedio (microvoltios)")
+
+        axes[1].stem(x, desviacion_1d[:limite])
+        axes[1].set_title("Desviación estándar en el eje " + str(eje))
+        axes[1].set_xlabel("Punto")
+        axes[1].set_ylabel("Desviación estándar (microvoltios)")
+
+        plt.tight_layout()
+        nombre_imagen = "promedio_desviacion_eeg.png"
+        plt.savefig(nombre_imagen, dpi=150)
+        plt.show()
+        print("Gráfico guardado como:", nombre_imagen)
+
+
+class AlmacenObjetos:
+    def __init__(self):
+        self.objetos = {}
+
+    def agregar_objeto(self, nombre, objeto):
+        self.objetos[nombre] = objeto
+        print("Objeto agregado con nombre:", nombre)
+
+    def buscar_objeto(self, nombre):
+        if nombre in self.objetos:
+            return self.objetos[nombre]
+        else:
+            print("No se encontró un objeto con ese nombre.")
+            return None
+
+    def listar_objetos(self):
+        if len(self.objetos) == 0:
+            print("No hay objetos guardados.")
+        else:
+            print("\nObjetos guardados:")
+            for nombre in self.objetos:
+                print("-", nombre, "->", type(self.objetos[nombre]).__name__)
+
+
+
+
