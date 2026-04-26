@@ -40,3 +40,31 @@ class ArchivoSIATA:
         plt.savefig(nombre_imagen, dpi=150)
         plt.show()
         print("Grafico guardado como:", nombre_imagen)
+
+    def operacion_apply(self, columna):
+        nueva_columna = columna + "_por_2_apply"
+        self.datos[nueva_columna] = self.datos[columna].apply(lambda x: x * 2)
+        print("Se creó la columna:", nueva_columna)
+        print(self.datos[[columna, nueva_columna]].head())
+
+    def operacion_map(self, columna):
+        promedio = self.datos[columna].mean()
+        nueva_columna = columna + "_clasificacion_map"
+        self.datos[nueva_columna] = self.datos[columna].map(lambda x: "alto" if x >= promedio else "bajo")
+        print("Promedio de", columna, ":", promedio)
+        print("Se creó la columna:", nueva_columna)
+        print(self.datos[[columna, nueva_columna]].head())
+    
+    def operar_dos_columnas(self, columna1, columna2, operacion):
+        if operacion == "1":
+            nueva_columna = columna1 + "_mas_" + columna2
+            self.datos[nueva_columna] = self.datos[columna1] + self.datos[columna2]
+        elif operacion == "2":
+            nueva_columna = columna1 + "_menos_" + columna2
+            self.datos[nueva_columna] = self.datos[columna1] - self.datos[columna2]
+        else:
+            print("Operación no válida. Use '1' para suma o '2' para resta.")
+            return
+
+        print("Se creó la columna:", nueva_columna)
+        print(self.datos[[columna1, columna2, nueva_columna]].head())
