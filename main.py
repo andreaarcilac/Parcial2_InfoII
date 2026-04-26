@@ -8,7 +8,7 @@ from clases import(
     validar_archivo
 )
 
-Almacen = AlmacenObjetos
+Almacen = AlmacenObjetos ()
 
 def submenu_siata(obj):
     while True:
