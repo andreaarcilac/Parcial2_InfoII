@@ -12,18 +12,17 @@ Almacen = AlmacenObjetos
 
 def submenu_siata(obj):
     while True:
-        print("""
-╔══════════════════════════════════════════╗
-║         MENÚ - ARCHIVO SIATA (CSV)       ║
-╠══════════════════════════════════════════╣
-║  1. Información básica del archivo       ║
-║  2. Graficar columna (plot/box/hist)     ║
-║  3. Operación con apply                  ║
-║  4. Operación con map                    ║
-║  5. Sumar o restar dos columnas          ║
-║  6. Graficar remuestreo (día/mes/trim.)  ║
-║  0. Volver al menú principal             ║
-╚══════════════════════════════════════════╝""")
+        print("\n******************************************")
+        print("*       MENÚ - ARCHIVO SIATA (CSV)       *")
+        print("******************************************")
+        print("*  1. Ver información básica             *")
+        print("*  2. Graficar columna (plot/box/hist)   *")
+        print("*  3. Operación con apply                *")
+        print("*  4. Operación con map                  *")
+        print("*  5. Sumar o restar dos columnas        *")
+        print("*  6. Graficar remuestreo                *")
+        print("*  0. Volver al menú principal           *")
+        print("******************************************")
         Opcion = pedir_entero("Elija una opcion: ")
         
         if Opcion == 1:
@@ -63,13 +62,13 @@ def submenu_eeg(obj):
     obj.seleccionar_matriz(llave)
 
     while True:
-        print("\n╔══════════════════════════════════════════╗")
-        print("║          MENÚ - ARCHIVO EEG (MAT)        ║")
-        print("╠══════════════════════════════════════════╣")
-        print("║  1. Sumar 3 canales y graficar           ║")
-        print("║  2. Promedio y desviación estándar (3D)  ║")
-        print("║  0. Volver al menú principal             ║")
-        print("╚══════════════════════════════════════════╝")
+        print("\n******************************************")
+        print("*        MENÚ – ARCHIVO EEG (MAT)        *")
+        print("******************************************")
+        print("*  1. Sumar 3 canales y graficar         *")
+        print("*  2. Promedio y desviación std (3D)     *")
+        print("*  0. Volver al menú principal           *")
+        print("******************************************")
 
         opcion = pedir_entero("Opción: ", 0, 2)
 
@@ -105,21 +104,21 @@ def submenu_eeg(obj):
 
 
 def menu_principal():
-    print("\n╔══════════════════════════════════════════════════╗")
-    print("║    SISTEMA DE EXPLORACIÓN NEUROAMBIENTAL         ║")
-    print("║    Universidad de Antioquia - Bioingeniería      ║")
-    print("╚══════════════════════════════════════════════════╝")
+    print("\n**************************************************")
+    print("*    SISTEMA DE EXPLORACIÓN NEUROAMBIENTAL      *")
+    print("*    Universidad de Antioquia – Bioingeniería   *")
+    print("**************************************************")
 
     while True:
-        print("\n╔══════════════════════════════════════════╗")
-        print("║            MENÚ PRINCIPAL                ║")
-        print("╠══════════════════════════════════════════╣")
-        print("║  1. Cargar archivo SIATA (CSV)           ║")
-        print("║  2. Cargar archivo EEG   (MAT)           ║")
-        print("║  3. Ver objetos guardados                ║")
-        print("║  4. Usar un objeto guardado              ║")
-        print("║  0. Salir                                ║")
-        print("╚══════════════════════════════════════════╝")
+        print("\n******************************************")
+        print("*            MENÚ PRINCIPAL              *")
+        print("******************************************")
+        print("*  1. Cargar archivo SIATA (CSV)         *")
+        print("*  2. Cargar archivo EEG   (MAT)         *")
+        print("*  3. Ver objetos guardados              *")
+        print("*  4. Usar un objeto guardado            *")
+        print("*  0. Salir                              *")
+        print("******************************************")
 
         opcion = pedir_entero("Opción: ", 0, 4)
 
