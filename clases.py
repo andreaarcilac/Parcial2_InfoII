@@ -2,6 +2,52 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.io import loadmat, whosmat
+import os
+
+def pedir_entero(texto, minimo=None, maximo=None):
+    while True:
+        try:
+            numero = int(input(texto))
+            if minimo is not None and numero < minimo:
+                print("El numero debe ser mayor o igual a", minimo)
+            elif maximo is not None and numero > maximo:
+                print("El numero debe ser menor o igual a", maximo)
+            else:
+                return numero
+        except ValueError:
+            print("Error: debe escribir un numero entero.")
+
+
+def validar_archivo(ruta, extension):
+    if not os.path.exists(ruta):
+        print("No se encontro el archivo.")
+        return False
+    if not ruta.lower().endswith(extension):
+        print("El archivo debe tener extension", extension)
+        return False
+    return True
+
+
+def elegir_columna(dataframe):
+    print("\nColumnas disponibles:")
+    for columna in dataframe.columns:
+        print("-", columna)
+
+    while True:
+        columna = input("Escriba el nombre de la columna: ").strip()
+        if columna in dataframe.columns:
+            return columna
+        else:
+            print("Esa columna no existe. Intente otra vez.")
+
+
+def elegir_columna_numerica(dataframe):
+    while True:
+        columna = elegir_columna(dataframe)
+        if pd.api.types.is_numeric_dtype(dataframe[columna]):
+            return columna
+        else:
+            print("La columna elegida no es numerica.")
 
 class ArchivoSIATA:
     def __init__(self, ruta):
